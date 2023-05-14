@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <title>Редактирование</title>
+    <link rel="stylesheet" href="/device_add_edit_style.css">
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body style="background: #899fff">
+
+<header th:insert="blocks/header :: header" class="sticky-top"></header>
+
+<hr class="clear">
+
+<main class="container-lg flex-shrink-0 bg-light">
+    <form th:action="'/devices/edit/' + ${s.id}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-12 input-group flex-nowrap size-150">
+                <label for="name" class="input-group-text">Название</label>
+                <input id="name" name="name" type="text" class="form-control"
+                       required th:value="${s.name}">
+            </div>
+            <div class="col-lg-6 size-150">
+                <div class="input-group">
+                    <label for="stores" class="input-group-text">Магазин</label>
+                    <input id="stores" name="stores" type="text" class="form-control"
+                           required th:value="${s.getStore.name}" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="poster" class="input-group-text">Постер</label>
+                    <input id="poster" name="poster" type="file" class="form-control"
+                           accept=".jpg,.jpeg,.png">
+                </div>
+                <div class="input-group">
+                    <label for="screenshots" class="input-group-text">Скриншоты</label>
+                    <input id="screenshots" name="screenshots" type="file" class="form-control"
+                           accept=".jpg,.jpeg,.png" multiple>
+                </div>
+            </div>
+            <div class="col-lg-6 size-150">
+                <div class="input-group">
+                    <label for="price" class="input-group-text">Цена</label>
+                    <input id="price" name="price" type="number" step="1" minlength="1" maxlength="1000"
+                           class="form-control" required th:value="${s.income.price}">
+                </div>
+                <div class="input-group">
+                    <label for="weight" class="input-group-text">Количество</label>
+                    <input id="weight" name="count" type="number" step="1" max="100"
+                           class="form-control" required th:value="${s.count}">
+                </div>
+                <div class="input-group">
+                    <label for="category" class="input-group-text">Выберите жанр</label>
+                    <select id="category" name="category" class="form-control">
+                        <option th:each="c : ${categories}" th:value="${c}" th:label="${c.name}" th:selected="${c == s.category}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <h4><label for="description">Описание</label></h4>
+                <input type="text" class="form-control" name="description" id="description" required
+                       th:value="${s.description}">
+            </div>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Обновить</button>
+        <button class="btn btn-lg btn-primary" type="reset">Вернуть назад</button>
+        <a class="btn btn-lg btn-primary" href="/catalog/all">Отмена</a>
+    </form>
+    <div class="pt-3"></div>
+</main>
+
+<hr class="clear">
+
+
+
+</body>
+
+</html>

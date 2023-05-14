@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Купленные</title>
+    <link rel="stylesheet" href="/static/cart_style.css">
+</head>
+
+<head th:insert="blocks\head :: head"></head>
+
+<body class="d-flex flex-column h-100" style="background: #899fff">
+
+<header th:insert="blocks\header :: header" class="sticky-top" role="navigation"></header>
+
+<hr class="clear">
+
+<main class="container-lg flex-shrink-0 bg-light">
+    <div class="row">
+        <div style="text-align: center;"><h1>Купленные</h1></div>
+        <div th:each="c : ${user.getCarts()}" class="col-lg-6 mt-3">
+            <div class="alert alert-primary">
+                <div class="row">
+                    <div class="col-lg-4 poster">
+                        <a th:href="'/devices/' + ${c.getDevice.id}">
+                            <img th:src="'/img/' + ${c.getDevice.poster}">
+                        </a>
+                    </div>
+                    <div class="col-lg">
+                        <h4 th:text="${c.getDevice.name}" class="card-title pricing-card-title mx-3 text-break"></h4>
+                        <ul class="list-unstyled mt-3 mb-3 mx-3">
+                            <li><b>Категория:</b> <span th:text="${c.device.category.name}"></span></li>
+                            <li><b>Количество:</b> <span th:text="${c.count}"></span></li>
+                            <li><b>Цена:</b> <span th:text="${c.price}"></span></li>
+                            <li><b>Стоимость:</b> <span th:text="${c.sum}"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pt-5"></div>
+</main>
+
+<hr class="clear">
+
+</body>
+
+</html>

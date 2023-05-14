@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Инструменты</title>
+    <link rel="stylesheet" href="/static/catalog_style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<head th:insert="blocks\head :: head"></head>
+
+<body class="d-flex flex-column h-100" style="background: #899fff">
+
+<header th:insert="blocks\header :: header" class="sticky-top"></header>
+
+<hr class="clear">
+
+<main class="container flex-shrink-0 bg-light">
+    <div class="pt-4"></div>
+    <form method="post" action="/catalog/search">
+        <div class="row">
+            <div class="col-lg">
+                <div class="input-group">
+                    <label for="category" class="input-group-text">Категория</label>
+                    <select id="category" name="category" class="form-control">
+                        <option th:each="c : ${categories}" th:value="${c}" th:label="${c.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg">
+                <div style="text-align: center;">
+                    <input class="form-control" type="text" name="search" placeholder="Введите название">
+                </div>
+            </div>
+            <div class="col-lg-auto">
+                <div style="text-align: center;">
+                    <button class="btn btn-outline-primary" type="submit">Поиск</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row mt-5">
+        <div class="col-lg-3" th:each="d : ${devices}">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <a class="device" th:href="'/devices/' + ${d.id} + '/'">
+                    <img class="device-photo mb-3 w-100" th:attr="src=${'/img/' + d.poster}">
+                    <h4 th:text="${d.name}" class="card-title pricing-card-title mx-3 text-break">Название</h4>
+                </a>
+                <ul class="list-unstyled mt-3 mb-3 mx-3">
+                    <li>Категория: <a th:text="${d.category.name}" th:href="'/catalog/category/' + ${d.category}"></a></li>
+                    <li>Цена: <span th:text="${d.income.price}"></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pt-4"></div>
+</main>
+
+<hr class="clear">
+
+
+
+</body>
+
+</html>

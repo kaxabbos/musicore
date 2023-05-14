@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${s.name}"></title>
+    <link rel="stylesheet" href="/static/devices_style.css">
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body style="background: #899fff">
+
+<header th:insert="blocks/header :: header" class="sticky-top" role="navigation"></header>
+
+<hr class="clear">
+
+<main class="container-lg flex-shrink-0 bg-light">
+    <div class="row">
+        <div class="col-lg-12 my-3">
+            <h1 th:text="${s.name}">Name</h1>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <img class="poster-device w-100" th:attr="src=${'/img/' + s.poster}">
+            <div th:if="${s.getStore.owner.id == user.id}" class="btn-group mt-3">
+                <a th:href="'/devices/edit/' + ${s.id}" class="btn btn-primary">Редактировать</a>
+            </div>
+            <div th:if="${s.getStore.owner.id == user.id}" class="btn-group mt-3">
+                <a th:href="'/devices/delete/' + ${s.id}" class="btn btn-danger">Удалить</a>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div>
+                <div>
+                    <b>Категория: </b>
+                    <a th:text="${s.category.name}" th:href="'/catalog/category/' + ${s.category}"></a>
+                </div>
+                <div>
+                    <b>Магазин: </b>
+                    <a th:text="${s.getStore.name}" th:href="'/stores/' + ${s.getStore.id}"></a>
+                </div>
+                <div><b>Цена: </b><span th:text="${s.income.price}"></span></div>
+                <div><b>Количество: </b><span th:text="${s.count}"></span></div>
+                <hr>
+                <form th:if="${role != 'ADMIN'}" method="post" th:action="'/devices/buy/' + ${s.id}">
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="count" name="count"
+                               placeholder="Имя пользователя" required min="1" th:max="${s.count}">
+                        <label for="count">Введите количество</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Купить</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-12 mt-3">
+            <h4>Описание</h4>
+            <p class="description text-break" th:text="${s.description}"></p>
+        </div>
+        <div class="col-lg-12 mt-3">
+            <h4>Фотография</h4>
+            <center>
+                <div class="row">
+                    <div th:each="i : ${s.screenshots}" class="col-6">
+                        <img class="poster-device my-2 w-100" th:attr="src=${'/img/' + i}">
+                    </div>
+                </div>
+                <hr class="clear">
+            </center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mt-5">
+            <form th:action="'/devices/comment/add/' + ${s.id}" method="post">
+                <h4>Мнения клиентов</h4>
+                <div class="alert alert-primary">
+                    <input placeholder="Введите текст..." class="form-control" type="text" name="comment" id="comment"
+                           required>
+                    <div class="btn-group mt-2">
+                        <button class="btn btn-primary" type="submit">Опубликовать</button>
+                        <button class="btn btn-primary" type="reset">Очистить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12" th:each="c : ${s.comments}">
+            <div class="alert alert-secondary">
+                <h5>
+                    <span th:text="${c.username}"></span>
+                    <span>|</span>
+                    <span th:text="${c.date}"></span>
+                </h5>
+                <hr>
+                <p class="description text-break" th:text="${c.comment}">Comment</p>
+            </div>
+        </div>
+    </div>
+    <div class="pt-5"></div>
+</main>
+
+<hr class="clear">
+
+
+</body>
+
+</html>

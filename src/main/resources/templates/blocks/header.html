@@ -1,0 +1,32 @@
+<div th:fragment="header">
+    <header class="p-2 text-white" style="background: #24349f">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
+                    <li><a href="/catalog/all" class="nav-link px-2 text-white">Музыкальные инструменты</a></li>
+                    <li><a href="/stores" class="nav-link px-2 text-white">Адреса магазинов</a></li>
+                    <li><a href="/about" class="nav-link px-2 text-white">Информация для покупателей</a></li>
+                    <li th:if="${role == 'ADMIN' || role == 'PUB'}">
+                        <a href="/stores/add" class="nav-link px-2 text-white">Добавить магазин</a>
+                    </li>
+                    <li th:if="${role == 'USER' || role == 'PUB'}">
+                        <a href="/cart" class="nav-link px-2 text-white">Купленные</a>
+                    </li>
+                </ul>
+                <form th:if="${role != 'NOT'}" action="/catalog/search/name" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                      method="post">
+                    <input type="search" name="search" class="form-control form-control-dark" placeholder="Поиск...">
+                </form>
+                <div class="text-end">
+                    <a th:if="${role == 'NOT'}" href="/login" type="button" class="btn btn-outline-light me-2">Войти</a>
+                    <a th:if="${role != 'NOT' && role != 'USER'}" href="/stats" type="button"
+                       class="btn btn-outline-light me-2">Статистика</a>
+                    <a th:if="${role == 'ADMIN'}" href="/users" type="button" class="btn btn-outline-light me-2">Профили</a>
+                    <a th:if="${role == 'NOT'}" href="/reg" type="button" class="btn btn-warning">Регистрация</a>
+                    <a th:if="${role != 'NOT'}" href="/logout" type="button" class="btn btn-warning">Выход</a>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
